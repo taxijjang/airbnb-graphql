@@ -1,27 +1,11 @@
 import graphene
-from graphene_django import DjangoObjectType
-from rooms.models import Room
+from rooms import schema as rooms_schema
 
-class RoomType(DjangoObjectType):
-    class Meta:
-        model = Room
 
-class Query(graphene.ObjectType):
-    hello = graphene.String()
-    taxijjang = graphene.String()
-    rooms = graphene.List(RoomType)
+class Query(rooms_schema.Query, graphene.ObjectType):
+    pass
 
-    def resolve_hello(self, info):
-        print(info)
-        return "Hello"
-
-    def resolve_taxijjang(self, info):
-        return "택시짱"
-
-    def resolve_rooms(self, info):
-        return Room.objects.all()
-
-class Mutaion:
+class Mutation:
     pass
 
 schema = graphene.Schema(query=Query)
